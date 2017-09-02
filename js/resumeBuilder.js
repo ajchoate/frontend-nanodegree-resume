@@ -169,13 +169,13 @@ var projects = {
             "title": "Sample Project 1",
             "dates": "2017",
             "description": "Sample project description for project 1",
-            "images": "http://placeholder.pics/svg/300"
+            "images": ["http://placeholder.pics/svg/300"]
         },
         {
             "title": "Sample Project 2",
             "dates": "2017",
             "description": "Sample project description for project 2",
-            "images": "http://placeholder.pics/svg/300"
+            "images": ["http://placeholder.pics/svg/300", "http://placeholder.pics/svg/250"]
         }
     ],
     "display": function() {
@@ -185,12 +185,15 @@ var projects = {
             var formattedProject = formattedObjects(HTMLprojectTitle, currentProjects.title);
             var formattedProjDate = formattedObjects(HTMLprojectDates, currentProjects.dates);
             var formattedProjDesc = formattedObjects(HTMLprojectDescription, currentProjects.description);
-            var formattedProjImage = formattedObjects(HTMLprojectImage, currentProjects.images);
-            
+                        
             $(".project-entry:last").append(formattedProject);
             $(".project-entry:last").append(formattedProjDate);
             $(".project-entry:last").append(formattedProjDesc);
-            $(".project-entry:last").append(formattedProjImage);
+            
+            currentProjects.images.forEach(function(project, index, array) {
+                var formattedProjImage = formattedObjects(HTMLprojectImage, currentProjects.images[index]);
+                $(".project-entry:last").append(formattedProjImage);
+            });
         }
     }
 };
