@@ -169,7 +169,7 @@ var projects = {
             "title": "Sample Project 1",
             "dates": "2017",
             "description": "Sample project description for project 1",
-            "images": ["http://placeholder.pics/svg/300"]
+            "images": ["http://placeholder.pics/svg/350", "http://placeholder.pics/svg/300"]
         },
         {
             "title": "Sample Project 2",
@@ -190,10 +190,10 @@ var projects = {
             $(".project-entry:last").append(formattedProjDate);
             $(".project-entry:last").append(formattedProjDesc);
             
-            currentProjects.images.forEach(function(project, index, array) {
-                var formattedProjImage = formattedObjects(HTMLprojectImage, currentProjects.images[index]);
+            for (var img = 0; img < currentProjects.images.length; img++) {
+                var formattedProjImage = formattedObjects(HTMLprojectImage, currentProjects.images[img]);
                 $(".project-entry:last").append(formattedProjImage);
-            });
+            }
         }
     }
 };
