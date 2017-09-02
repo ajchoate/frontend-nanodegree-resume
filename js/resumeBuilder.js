@@ -1,4 +1,5 @@
-﻿/*jshint -W100 */
+/*jshint -W100 */
+
 function formattedObjects(HTMLhelper, objectString) {
 	return HTMLhelper.replace("%data%", objectString);
 }
