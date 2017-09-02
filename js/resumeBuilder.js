@@ -1,3 +1,7 @@
+﻿function formattedObjects(HTMLhelper, objectString) {
+	return HTMLhelper.replace("%data%", objectString);
+}
+
 var bio = {
     "name": "Alyssa Choate",
     "role": "Web Dev Student",
@@ -11,26 +15,26 @@ var bio = {
     "skills": ["Critical Thinking", "Problem Solving", "Microsoft Office", "French"],
     "biopic": "images/liprofile.png",
     "display": function() {
-        var formattedName = HTMLheaderName.replace("%data%", bio.name);
-        var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
-        var formattedMobile = HTMLmobile.replace("%data%", bio.contacts.mobile);
-        var formattedEmail = HTMLemail.replace("%data%", bio.contacts.email);
-        var formattedGithub = HTMLgithub.replace("%data%", bio.contacts.github);
-        var formattedLocation = HTMLlocation.replace("%data%", bio.contacts.location);
-        var formattedWelcomeMsg = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
-        var formattedBiopic = HTMLbioPic.replace("%data%", bio.biopic);
+    	var formattedName = formattedObjects(HTMLheaderName, bio.name);
+        var formattedRole = formattedObjects(HTMLheaderRole, bio.role);
+        var formattedMobile = formattedObjects(HTMLmobile, bio.contacts.mobile);
+        var formattedEmail = formattedObjects(HTMLemail, bio.contacts.email);
+        var formattedGithub = formattedObjects(HTMLgithub, bio.contacts.github);
+        var formattedLocation = formattedObjects(HTMLlocation, bio.contacts.location);
+        var formattedWelcomeMsg = formattedObjects(HTMLwelcomeMsg, bio.welcomeMessage);
+        var formattedBiopic = formattedObjects(HTMLbioPic, bio.biopic);
 
-        $("#header").prepend(formattedRole);
-        $("#header").prepend(formattedName);
-        $("#header").append(formattedWelcomeMsg);
-        $("#header").append(formattedBiopic);
-        $("#topContacts").append(formattedMobile, formattedEmail, formattedGithub, formattedLocation);
-        $("#footerContacts").append(formattedMobile, formattedEmail, formattedGithub, formattedLocation);
+        var header = $("#header");
+        header.prepend(formattedRole);
+        header.prepend(formattedName);
+        header.append(formattedWelcomeMsg);
+        header.append(formattedBiopic);
+        $("#topContacts, #footerContacts").append(formattedMobile, formattedEmail, formattedGithub, formattedLocation);
 
         if (bio.skills.length > 0) {
-            $("#header").append(HTMLskillsStart);
+            header.append(HTMLskillsStart);
             bio.skills.forEach(function(skill, index, array) {
-                var formattedSkills = HTMLskills.replace("%data%", bio.skills[index]);
+                var formattedSkills = formattedObjects(HTMLskills, bio.skills[index]);
                 $("#skills").append(formattedSkills);
             });
         }
@@ -48,7 +52,7 @@ var work = {
         },
         {
             "employer": "Reynolds and Reynolds",
-            "title": ["Vendor Relations Associate", " Forms Programmer"],
+            "title": "Vendor Relations Associate & Forms Programmer",
             "location": "Kettering, OH",
             "dates": "2015 - 2017",
             "description": "Performed sales analyses and gathered rates data; programmed documents to display on docuPAD software",
@@ -81,14 +85,17 @@ var work = {
     ],
     "display": function() {
         for (var job = 0; job < work.jobs.length; job++) {
+        	var currentJob = work.jobs[job];
             $("#workExperience").append(HTMLworkStart);
-            var formattedEmployer = HTMLworkEmployer.replace("%data%", work.jobs[job].employer).replace("#", work.jobs[job].url);
-            var formattedTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title);
+            var formattedEmployer = formattedObjects(HTMLworkEmployer, currentJob.employer);
+            formattedEmployer = formattedEmployer.replace("#", currentJob.url);
+            var formattedTitle = formattedObjects(HTMLworkTitle, currentJob.title);
             var formattedEmployerTitle = formattedEmployer + formattedTitle;
+            var formattedDates = formattedObjects(HTMLworkDates, currentJob.dates);
+            var formattedLocation = formattedObjects(HTMLworkLocation, currentJob.location);
+            var formattedDescription = formattedObjects(HTMLworkDescription, currentJob.description);
+            
             $(".work-entry:last").append(formattedEmployerTitle);
-            var formattedDates = HTMLworkDates.replace("%data%", work.jobs[job].dates);
-            var formattedLocation = HTMLworkLocation.replace("%data%", work.jobs[job].location);
-            var formattedDescription = HTMLworkDescription.replace("%data%", work.jobs[job].description);
             $(".work-entry:last").append(formattedDates);
             $(".work-entry:last").append(formattedLocation);
             $(".work-entry:last").append(formattedDescription);
@@ -109,7 +116,7 @@ var education = {
             "name": "Westwood High School",
             "location": "Ishpeming, MI",
             "degree": "High School Diploma",
-            "majors": "General Education",
+            "majors": ["General Education"],
             "dates": "2002 - 2005",
             "url": "https://nice.k12.mi.us/"
         }
@@ -123,12 +130,15 @@ var education = {
     "display": function() {
         $("#education").append(HTMLschoolStart);
         for (var school = 0; school < education.schools.length; school++) {
-            var formattedSchool = HTMLschoolName.replace("%data%", education.schools[school].name).replace("#", education.schools[school].url);
-            var formattedDegree = HTMLschoolDegree.replace("%data%", education.schools[school].degree);
+        	var currentSchool = education.schools[school];
+            var formattedSchool = formattedObjects(HTMLschoolName, currentSchool.name);
+            formattedSchool = formattedSchool.replace("#", currentSchool.url);
+            var formattedDegree = formattedObjects(HTMLschoolDegree, currentSchool.degree);
             var formattedSchoolDegree = formattedSchool + formattedDegree;
-            var formattedDates = HTMLschoolDates.replace("%data%", education.schools[school].dates);
-            var formattedLocation = HTMLschoolLocation.replace("%data%", education.schools[school].location);
-            var formattedMajor = HTMLschoolMajor.replace("%data%", education.schools[school].majors);
+            var formattedDates = formattedObjects(HTMLschoolDates, currentSchool.dates);
+            var formattedLocation = formattedObjects(HTMLschoolLocation, currentSchool.location);
+            var formattedMajor = formattedObjects(HTMLschoolMajor, currentSchool.majors);
+
             $(".education-entry:last").append(formattedSchoolDegree);
             $(".education-entry:last").append(formattedDates);
             $(".education-entry:last").append(formattedLocation);
@@ -136,11 +146,15 @@ var education = {
         }
         $(".education-entry").append(HTMLonlineClasses);
         for (var online = 0; online < education.onlineCourses.length; online++) {
-            var formattedOnlineTitle = HTMLonlineTitle.replace("%data%", education.onlineCourses[online].title).replace("#", education.onlineCourses[online].url);
-            var formattedOnlineSchool = HTMLonlineSchool.replace("%data%", education.onlineCourses[online].school);
+            var currentOnlineSchool = education.onlineCourses[online]; 
+            var formattedOnlineTitle = formattedObjects(HTMLonlineTitle, currentOnlineSchool.title);
+            formattedOnlineTitle = formattedOnlineTitle.replace("#", currentOnlineSchool.url);
+            var formattedOnlineSchool = formattedObjects(HTMLonlineSchool, currentOnlineSchool.school);
             var formattedOnlineSchoolTitle = formattedOnlineTitle + formattedOnlineSchool;
-            var formattedOnlineDates = HTMLonlineDates.replace("%data%", education.onlineCourses[online].dates);
-            var formattedOnlineURL = HTMLonlineURL.replace("%data%", education.onlineCourses[online].url).replace("#", education.onlineCourses[online].url);
+            var formattedOnlineDates = formattedObjects(HTMLonlineDates, currentOnlineSchool.dates);
+            var formattedOnlineURL = formattedObjects(HTMLonlineURL, currentOnlineSchool.url);
+            formattedOnlineURL = formattedOnlineURL.replace("#", currentOnlineSchool.url);
+            
             $(".education-entry:last").append(formattedOnlineSchoolTitle);
             $(".education-entry:last").append(formattedOnlineDates);
             $(".education-entry:last").append(formattedOnlineURL);
@@ -149,7 +163,7 @@ var education = {
 };
 
 var projects = {
-    "project": [{
+    "projects": [{
             "title": "Sample Project 1",
             "dates": "2017",
             "description": "Sample project description for project 1",
@@ -164,11 +178,13 @@ var projects = {
     ],
     "display": function() {
         $("#projects").append(HTMLprojectStart);
-        for (var proj = 0; proj < projects.project.length; proj++) {
-            var formattedProject = HTMLprojectTitle.replace("%data%", projects.project[proj].title);
-            var formattedProjDate = HTMLprojectDates.replace("%data%", projects.project[proj].dates);
-            var formattedProjDesc = HTMLprojectDescription.replace("%data%", projects.project[proj].description);
-            var formattedProjImage = HTMLprojectImage.replace("%data%", projects.project[proj].images);
+        for (var proj = 0; proj < projects.projects.length; proj++) {
+            var currentProjects = projects.projects[proj];
+            var formattedProject = formattedObjects(HTMLprojectTitle, currentProjects.title);
+            var formattedProjDate = formattedObjects(HTMLprojectDates, currentProjects.dates);
+            var formattedProjDesc = formattedObjects(HTMLprojectDescription, currentProjects.description);
+            var formattedProjImage = formattedObjects(HTMLprojectImage, currentProjects.images);
+            
             $(".project-entry:last").append(formattedProject);
             $(".project-entry:last").append(formattedProjDate);
             $(".project-entry:last").append(formattedProjDesc);
